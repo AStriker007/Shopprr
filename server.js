@@ -1,13 +1,18 @@
 const express = require('express')
 const connectToDB = require('./config/db')
+const cors=require('cors')
 const productRoutes = require('./routes/productRoutes')
+const userRoutes=require('./routes/userRoutes')
 const dotenv = require('dotenv')
 const colors=require('colors')
 const {notFound,errorHandler}=require('./middleware/errorMiddleware')
 dotenv.config();
 const app = express();
 connectToDB()
+app.use(express.json())
+app.use(cors)
 app.use('/api/products', productRoutes)
+app.use('/api/users',userRoutes)
 app.use(notFound)
 app.use(errorHandler)
 app.listen(process.env.PORT, console.log(`Listening on port ${process.env.PORT}`.cyan.underline))
